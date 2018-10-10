@@ -2,7 +2,7 @@
 /**
  * Custom Template functions and definitions
  *
- * @link https://developer.wordpress.org/themes/basics/theme-functions/
+ * Author Khin Wai Lwin
  *
  * @package Custom_Template
  */
@@ -46,7 +46,10 @@ if ( ! function_exists( 'custom_template_setup' ) ) :
 		register_nav_menus( array(
 			'menu-1' => esc_html__( 'Primary', 'custom-template' ),
 		) );
-
+		add_filter( 'nav_menu_css_class', function($classes) {
+	    $classes[] = 'nav-item';
+	    return $classes;
+	}, 10, 1 );
 		/*
 		 * Switch default core markup for search form, comment form, and comments
 		 * to output valid HTML5.
@@ -138,6 +141,66 @@ function custom_template_scripts() {
 	}
 }
 add_action( 'wp_enqueue_scripts', 'custom_template_scripts' );
+
+if ( ! function_exists( 'custom_template_display_slider' ) ) :
+/**
+ * Displays Slider
+ */
+function custom_template_display_slider() {
+    ?>
+       <div id="carousel-example-1z" class="carousel slide carousel-fade carousel-half" data-ride="carousel">
+            <!--Indicators-->
+            <ol class="carousel-indicators">
+                <li data-target="#carousel-example-1z" data-slide-to="0" class=""></li>
+                <li data-target="#carousel-example-1z" data-slide-to="1" class=""></li>
+                <li data-target="#carousel-example-1z" data-slide-to="2" class="active"></li>
+            </ol>
+            <!--/.Indicators-->
+            <!--Slides-->
+            <div class="carousel-inner" role="listbox">
+                <!--First slide-->
+                <?php
+                for ( $i = 1; $i <= 3; ++$i ) {
+                    $defaultSlideImage = get_template_directory_uri().'/images/slider/' . $i .'.jpg';
+                    $slideImage = get_theme_mod( 'custom_template_slide'.$i.'_image', $defaultSlideImage );
+    			?>
+                <div class="carousel-item <?= ($i==1)? 'active' : '' ?>">
+                    <div class="view h-100">
+                        <img class="d-block h-100 w-lg-100" src="<?php echo esc_attr($slideImage); ?>" alt="First slide">
+                        <div class="mask rgba-indigo-light">
+                            <!-- Caption -->
+                            <div class="full-bg-img flex-center white-text">
+                                <ul class="animated fadeIn col-10 list-unstyled">
+                                    <li>
+                                    	<h1 class="mb-4"><?php echo wpautop(get_theme_mod('yoma_slide'.$i.'_text'))?></h1>
+                                    </li>
+
+                                </ul>
+                            </div>
+                            <!-- /.Caption -->
+                        </div>
+                    </div>
+                </div>
+                <?php
+	                }
+			    ?>
+                <!--/First slide-->
+            </div>
+            <!--/.Slides-->
+            <!--Controls-->
+            <a class="carousel-control-prev" href="#carousel-example-1z" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carousel-example-1z" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+            <!--/.Controls-->
+        </div>
+    <?php
+    }
+endif; // custom_template_display_slider
 
 /**
  * Implement the Custom Header feature.

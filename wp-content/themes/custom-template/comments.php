@@ -2,12 +2,12 @@
 /**
  * The template for displaying comments
  *
- * This is the template that displays the area of the page that contains both the current comments
+ * The area of the page that contains both current comments
  * and the comment form.
  *
- * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
- *
- * @package Custom_Template
+ * @package WordPress
+ * @subpackage Twenty_Sixteen
+ * @since Twenty Sixteen 1.0
  */
 
 /*
@@ -22,54 +22,106 @@ if ( post_password_required() ) {
 
 <div id="comments" class="comments-area">
 
-	<?php
-	// You can start editing here -- including this comment!
-	if ( have_comments() ) :
-		?>
+	<?php if ( have_comments() ) : ?>
 		<h2 class="comments-title">
 			<?php
-			$custom_template_comment_count = get_comments_number();
-			if ( '1' === $custom_template_comment_count ) {
-				printf(
-					/* translators: 1: title. */
-					esc_html__( 'One thought on &ldquo;%1$s&rdquo;', 'custom-template' ),
-					'<span>' . get_the_title() . '</span>'
-				);
-			} else {
-				printf( // WPCS: XSS OK.
-					/* translators: 1: comment count number, 2: title. */
-					esc_html( _nx( '%1$s thought on &ldquo;%2$s&rdquo;', '%1$s thoughts on &ldquo;%2$s&rdquo;', $custom_template_comment_count, 'comments title', 'custom-template' ) ),
-					number_format_i18n( $custom_template_comment_count ),
-					'<span>' . get_the_title() . '</span>'
-				);
-			}
+				$comments_number = get_comments_number();
+				if ( '1' === $comments_number ) {
+					/* translators: %s: post title */
+					printf( _x( 'One thought on &ldquo;%s&rdquo;', 'comments title', 'twentysixteen' ), get_the_title() );
+				} else {
+					printf(
+						/* translators: 1: number of comments, 2: post title */
+						_nx(
+							'%1$s thought on &ldquo;%2$s&rdquo;',
+							'%1$s thoughts on &ldquo;%2$s&rdquo;',
+							$comments_number,
+							'comments title',
+							'twentysixteen'
+						),
+						number_format_i18n( $comments_number ),
+						get_the_title()
+					);
+				}
 			?>
-		</h2><!-- .comments-title -->
+		</h2>
 
 		<?php the_comments_navigation(); ?>
 
 		<ol class="comment-list">
 			<?php
-			wp_list_comments( array(
-				'style'      => 'ol',
-				'short_ping' => true,
-			) );
+				wp_list_comments( array(
+					'style'       => 'ol',
+					'short_ping'  => true,
+					'avatar_size' => 42,
+				) );
 			?>
 		</ol><!-- .comment-list -->
 
-		<?php
-		the_comments_navigation();
+		<?php the_comments_navigation(); ?>
 
+	<?php endif; // Check for have_comments(). ?>
+
+	<?php
 		// If comments are closed and there are comments, let's leave a little note, shall we?
-		if ( ! comments_open() ) :
-			?>
-			<p class="no-comments"><?php esc_html_e( 'Comments are closed.', 'custom-template' ); ?></p>
-			<?php
-		endif;
+		if ( ! comments_open() && get_comments_number() && post_type_supports( get_post_type(), 'comments' ) ) :
+	?>
+		<p class="no-comments"><?php _e( 'Comments are closed.', 'twentysixteen' ); ?></p>
+	<?php endif; ?>
 
-	endif; // Check for have_comments().
+	<?php
+		$fields =  array(
+		  	'author' =>
+			    '<div class="row"><div class="col-lg-4 col-md-12 mb-4">
+				    <div class="input-group md-form form-sm form-3 pl-0">
+				    	<div class="input-group-prepend">
+	                        <span class="input-group-text white black-text" id="basic-addon8">1</span>
+	                    </div>' .
+				    	'<input id="author" name="author" class="form-control mt-0 black-border rgba-white-strong" placeholder="' . __( 'Name', 'domainreference' ) .( $req ? ' *' : '' ) . '" type="text" value="' . esc_attr( $commenter['comment_author'] ) .'" size="30"' . $aria_req . ' />
+				    </div>
+			    </div>',
 
-	comment_form();
+		  	'email' =>
+		  		'<div class="col-lg-4 col-md-6 mb-4">
+				    <div class="input-group md-form form-sm form-3 pl-0">
+				    	<div class="input-group-prepend">
+	                        <span class="input-group-text white black-text" id="basic-addon8">2</span>
+	                    </div>' .
+				    	'<input id="author" name="author" class="form-control mt-0 black-border rgba-white-strong" placeholder="' . __( 'Email', 'domainreference' ) .( $req ? ' *' : '' ) . '" type="text" value="' . esc_attr(  $commenter['comment_author_email'] ) . '" size="30"' . $aria_req . ' />
+				    </div>
+			    </div>',
+		    'url' =>
+		  		'<div class="col-lg-4 col-md-6 mb-4">
+				    <div class="input-group md-form form-sm form-3 pl-0">
+				    	<div class="input-group-prepend">
+	                        <span class="input-group-text white black-text" id="basic-addon8">3</span>
+	                    </div>' .
+				    	'<input id="url" name="url" class="form-control mt-0 black-border rgba-white-strong" placeholder="' . __( 'Website', 'domainreference' ) .( $req ? ' *' : '' ) . '" type="text" value="' . esc_attr(  $commenter['comment_author_url'] ) . '" size="30"' . $aria_req . ' />
+				    </div>
+			    </div></div>',
+		);
+		$comments_args = array(
+			'class_submit'=> 'btn btn-grey btn-sm',
+			'fields' => $fields,
+	        // change the title of send button 
+	        'label_submit'=>'Send',
+	        // change the title of the reply section
+	        'title_reply'=>'Leave a reply',
+	        // remove "Text or HTML to be displayed after the set of comment fields"
+	        'comment_notes_after' => '',
+	        // redefine your own textarea (the comment body)
+	        'comment_field' => 
+	        '<div class="row">
+		        <div class="col-12 mt-1">
+		        	<div class="form-group basic-textarea rounded-corners shadow-textarea">
+		        		<textarea class="form-control" id="comment" name="comment" rows="5" placeholder="' . _x( 'Comment', 'noun' ) . '" aria-required="true"></textarea>
+		        	</div>
+		        	<div class="text-right">
+		        	</div>
+	        	</div>
+	        </div>',
+		);
+		comment_form( $comments_args);
 	?>
 
-</div><!-- #comments -->
+</div><!-- .comments-area -->

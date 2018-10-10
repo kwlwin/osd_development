@@ -55,24 +55,17 @@
 
 	      <!-- Links -->
 	      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <?php
 
+                wp_nav_menu( array(
+                    'theme_location' => 'menu-1',
+                    'menu_class'     => 'navbar-nav mr-auto',
+                    'container'      => 'ul',
+                 ) );
+
+            ?>
 	        <!-- Left -->
-	        <ul class="navbar-nav mr-auto">
-	          <li class="nav-item active">
-	            <a class="nav-link" href="#">Home
-	              <span class="sr-only">(current)</span>
-	            </a>
-	          </li>
-	          <li class="nav-item">
-	            <a class="nav-link" href="https://mdbootstrap.com/material-design-for-bootstrap/" target="_blank">About MDB</a>
-	          </li>
-	          <li class="nav-item">
-	            <a class="nav-link" href="https://mdbootstrap.com/getting-started/" target="_blank">Free download</a>
-	          </li>
-	          <li class="nav-item">
-	            <a class="nav-link" href="https://mdbootstrap.com/bootstrap-tutorial/" target="_blank">Free tutorials</a>
-	          </li>
-	        </ul>
+	        
 	      </div>
 
 	    </div>
@@ -81,98 +74,10 @@
     <!--Intro-->
     <?php if ( is_home() && is_front_page() ) : ?>
     <section>
-
-        <!--Carousel Wrapper-->
-        <div id="carousel-example-1z" class="carousel slide carousel-fade carousel-half" data-ride="carousel">
-            <!--Indicators-->
-            <ol class="carousel-indicators">
-                <li data-target="#carousel-example-1z" data-slide-to="0" class=""></li>
-                <li data-target="#carousel-example-1z" data-slide-to="1" class=""></li>
-                <li data-target="#carousel-example-1z" data-slide-to="2" class="active"></li>
-            </ol>
-            <!--/.Indicators-->
-            <!--Slides-->
-            <div class="carousel-inner" role="listbox">
-                <!--First slide-->
-                <div class="carousel-item">
-                    <div class="view h-100">
-                        <img class="d-block h-100 w-lg-100" src="https://mdbootstrap.com/img/Photos/Others/city13.jpg" alt="First slide">
-                        <div class="mask rgba-indigo-light">
-                            <!-- Caption -->
-                            <div class="full-bg-img flex-center white-text">
-                                <ul class="animated fadeIn col-10 list-unstyled">
-                                    <li>
-                                        <h1 class="h1-responsive font-weight-bold">Lorem ipsum dolor sit amet, consectetur adipiscing elit</h1>
-                                    </li>
-                                    <li>
-                                        <p>Tempora incidunt ut labore et dolore veritatis et quasi architecto beatae</p>
-                                    </li>
-
-                                </ul>
-                            </div>
-                            <!-- /.Caption -->
-                        </div>
-                    </div>
-                </div>
-                <!--/First slide-->
-                <!--Second slide-->
-                <div class="carousel-item h-100">
-                    <div class="view h-100">
-                        <img class="d-block h-100 w-lg-100" src="https://mdbootstrap.com/img/Photos/Others/city10.jpg" alt="Second slide">
-                        <div class="mask rgba-stylish-light">
-                            <!-- Caption -->
-                            <div class="full-bg-img flex-center white-text">
-                                <ul class="animated fadeIn col-10 list-unstyled">
-                                    <li>
-                                        <h1 class="h1-responsive font-weight-bold">Nemo enim ipsam voluptatem quia voluptas sit </h1>
-                                    </li>
-                                    <li>
-                                        <p>Nemo enim ipsamvoluptatem quia veritatis et quasi architecto beatae</p>
-                                    </li>
-                                </ul>
-                            </div>
-                            <!-- /.Caption -->
-                        </div>
-                    </div>
-                </div>
-                <!--/Second slide-->
-                <!--Third slide-->
-                <div class="carousel-item active">
-                    <div class="view h-100">
-                        <img class="d-block h-100 w-lg-100" src="https://mdbootstrap.com/img/Photos/Others/city12.jpg" alt="Third slide">
-                        <div class="mask rgba-black-light">
-                            <!-- Caption -->
-                            <div class="full-bg-img flex-center white-text">
-                                <ul class="animated fadeIn col-10 list-unstyled">
-                                    <li>
-                                        <h1 class="h1-responsive font-weight-bold">Sed ut perspiciatis unde omnis iste natus sit voluptatem</h1>
-                                    </li>
-                                    <li>
-                                        <p>Unde omnis iste natus sit voluptatem veritatis et quasi architecto beatae</p>
-                                    </li>
-                                </ul>
-                            </div>
-                            <!-- /.Caption -->
-                        </div>
-                    </div>
-                </div>
-                <!--/Third slide-->
-            </div>
-            <!--/.Slides-->
-            <!--Controls-->
-            <a class="carousel-control-prev" href="#carousel-example-1z" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#carousel-example-1z" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
-            <!--/.Controls-->
-        </div>
-        <!--/.Carousel Wrapper-->
-
+        
+        <?php custom_template_display_slider(); ?>
     </section>
+    
     <?php endif; ?>
  <main class="pt-4">
     <!--/Intro-->
